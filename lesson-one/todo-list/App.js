@@ -26,6 +26,22 @@ export default function App() {
     "awiufha jbcgfakh bv skj vgakeb",
     "awiufha jbcgfakh bv skj vgakeb",
     "awiufha jbcgfakh bv skj vgakeb",
+    "awiufha jbcgfakh bv skj vxgakeb",
+    "awiufha jbcgfakh bv skj vgakeb",
+    "awiufha jbcgfakh bv skj vgakeb",
+    "awiufha jbcgfakh bv skj vgakeb",
+    "awiufha jbcgfakh bv skj vgakeb",
+    "awiufha jbcgfakh bv skj vgakeb",
+    "awiufha jbcgfakh bv skj vgakeb",
+    "awiufha jbcgfakh bv skj vgakeb",
+    "awiufha jbcgfakh bv skj vgakeb",
+    "awiufha jbcgfakh bv skj vgakeb",
+    "awiufha jbcgfakh bv skj vgakeb",
+    "awiufha jbcgfakh bv skj vgakeb",
+    "awiufha jbcgfakh bv skj vgakeb",
+    "awiufha jbcgfakh bv skj vgakeb",
+    "awiufha jbcgfakh bv skj vgakeb",
+    "awiufha jbcgfakh bv skj vgakeb",
     "awiufha jbcgfakh bv skj vgakeb",
     "awiufha jbcgfakh bv skj vgakeb",
     "awiufha jbcgfakh bv skj vgakeb",
@@ -47,9 +63,10 @@ export default function App() {
         <View style={styles.top}>
           <Text style={styles.heading}>Today's tasks</Text>
           <FlatList
+            style={{ height: "90%" }}
             data={tasks}
             renderItem={({ item }) => <Task taskText={item} />}
-            keyExtractor={(i) => i}
+            keyExtractor={(_, i) => i}
           />
         </View>
         <KeyboardAvoidingView
