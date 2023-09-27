@@ -13,59 +13,48 @@ import {
 } from "react-native";
 import Task from "./components/Task";
 import Icon from "react-native-vector-icons/Ionicons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function App() {
   const [textInput, setTextInput] = useState("");
-  const [tasks, setTasks] = useState([
-    "awawdawdawdawdaw",
-    "awiufha jbcgfakh bv skj vgakeb",
-    "awiufha jbcgfakh bv skj vgakeb",
-    "awiufha jbcgfakh bv skj vgakeb",
-    "awiufha jbcgfakh bv skj vgakeb",
-    "awiufha jbcgfakh bv skj vgakeb",
-    "awiufha jbcgfakh bv skj vgakeb",
-    "awiufha jbcgfakh bv skj vgakeb",
-    "awiufha jbcgfakh bv skj vxgakeb",
-    "awiufha jbcgfakh bv skj vgakeb",
-    "awiufha jbcgfakh bv skj vgakeb",
-    "awiufha jbcgfakh bv skj vgakeb",
-    "awiufha jbcgfakh bv skj vgakeb",
-    "awiufha jbcgfakh bv skj vgakeb",
-    "awiufha jbcgfakh bv skj vgakeb",
-    "awiufha jbcgfakh bv skj vgakeb",
-    "awiufha jbcgfakh bv skj vgakeb",
-    "awiufha jbcgfakh bv skj vgakeb",
-    "awiufha jbcgfakh bv skj vgakeb",
-    "awiufha jbcgfakh bv skj vgakeb",
-    "awiufha jbcgfakh bv skj vgakeb",
-    "awiufha jbcgfakh bv skj vgakeb",
-    "awiufha jbcgfakh bv skj vgakeb",
-    "awiufha jbcgfakh bv skj vgakeb",
-    "awiufha jbcgfakh bv skj vgakeb",
-    "awiufha jbcgfakh bv skj vgakeb",
-    "awiufha jbcgfakh bv skj vgakeb",
-    "awiufha jbcgfakh bv skj vgakeb",
-    "awiufha jbcgfakh bv skj vgakeb",
-    "awiufha jbcgfakh bv skj vgakeb",
-  ]);
+  const [tasks, setTasks] = useState([]);
 
-  const addTask = () => {
+  const addTask = async () => {
     if (textInput.trim() !== "") {
+      const newTasks = [...tasks, textInput];
+
       setTasks([...tasks, textInput]);
       setTextInput("");
       Keyboard.dismiss();
     }
   };
+
+  useEffect(() => {
+    (async () => {
+      const storage = await AsyncStorage.getItem("tasks");
+      if (storage) {
+        setTasks(JSON.parse(storage));
+      }
+    })();
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      AsyncStorage.setItem("tasks", JSON.stringify(tasks));
+    })();
+  }, [tasks]);
+
   return (
     <SafeAreaView>
       <View style={styles.container}>
         <View style={styles.top}>
           <Text style={styles.heading}>Today's tasks</Text>
           <FlatList
-            style={{ height: "90%" }}
             data={tasks}
-            renderItem={({ item }) => <Task taskText={item} />}
+            renderItem={({ index, item }) => (
+              <Task setTasks={setTasks} index={index} taskText={item} />
+            )}
             keyExtractor={(_, i) => i}
           />
         </View>
@@ -96,6 +85,7 @@ const styles = StyleSheet.create({
   },
   top: {
     gap: 30,
+    height: "85%",
   },
   bottom: {
     alignSelf: "center",

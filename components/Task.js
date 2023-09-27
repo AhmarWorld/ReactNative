@@ -1,14 +1,24 @@
-import { StyleSheet, Text, View } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
-export default function Task({ taskText }) {
+export default function Task({ taskText, index, setTasks }) {
+  const deleteTask = () => {
+    setTasks((prevState) => {
+      const newTasks = prevState.filter((el, curIndex) => {
+        return curIndex !== index;
+      });
+      return newTasks;
+    });
+  };
+
   return (
-    <View style={styles.container}>
+    <TouchableOpacity onPress={deleteTask} style={styles.container}>
       <View style={styles.left}>
         <View style={styles.square} />
         <Text style={styles.text}>{taskText}</Text>
       </View>
       <View style={styles.right} />
-    </View>
+    </TouchableOpacity>
   );
 }
 
@@ -29,6 +39,7 @@ const styles = StyleSheet.create({
   left: {
     flexDirection: "row",
     alignItems: "center",
+    maxWidth: "80%",
   },
   square: {
     width: 24,
